@@ -125,4 +125,4 @@
     mode: 0644
   notify: Restart consul
   when: consul_register_services and consul_services is defined and (consul_services | length > 0)
-  tags: ['consul', 'files']
+  tags: ['consul', 'files', 'services']
