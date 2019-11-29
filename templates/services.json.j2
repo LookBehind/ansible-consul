@@ -1,0 +1,23 @@
+{
+  "services": [
+  {% for service in consul_services %}
+    {
+    {% for key, value in service.items() if service is mapping %}
+      {% if value is sequence and value is not string %}
+        "{{key}}": [
+        {% for p in value if p is mapping %}
+        {
+          {% for k, v in p.items() %}
+            "{{k}}":"{{v}}"{% if not loop.last %},{% endif %}
+          {% endfor %}
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+        ]{% if not loop.last %},{% endif %}
+      {% else %}
+        "{{key}}":"{{value}}"{% if not loop.last %},{% endif %}
+      {% endif %}
+    {% endfor %}
+    }{% if not loop.last %},{% endif %}
+  {% endfor %}
+  ]
+}

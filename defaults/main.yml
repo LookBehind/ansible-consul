@@ -8,3 +8,15 @@ consul_install_dir: /usr/local/bin
 consul_inventory_group_name: consul
 consul_bind_address: 0.0.0.0
 consul_do_not_start_immediately: true
+consul_register_services: false
+consul_services_template: services.json.j2
+# consul_services:
+# - name: service1_name
+#   port: 80
+#   checks: 
+#   - id: api
+#     name: Name of the check
+#     http: http://localhost
+#     interval: 10s
+#     timeout: 1s
+# - name: service2_name
