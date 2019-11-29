@@ -1,23 +1,23 @@
 {
-  "services": [
-  {% for service in consul_services %}
+  "services":[
+    {%- for service in consul_services %}
     {
-    {% for key, value in service.items() if service is mapping %}
-      {% if value is sequence and value is not string %}
-        "{{key}}": [
-        {% for p in value if p is mapping %}
+      {%- for key, value in service.items() if service is mapping -%}
+      {%- if value is sequence and value is not string %}
+      "{{key}}":[
+        {%- for p in value if p is mapping %}
         {
-          {% for k, v in p.items() %}
-            "{{k}}":"{{v}}"{% if not loop.last %},{% endif %}
-          {% endfor %}
+          {%- for k, v in p.items() %}
+          "{{k}}":{% if v is string %}"{{v}}"{% else %}{{v}}{% endif %}{% if not loop.last %},{% endif -%}
+          {%- endfor %}
         }{% if not loop.last %},{% endif %}
-        {% endfor %}
-        ]{% if not loop.last %},{% endif %}
-      {% else %}
-        "{{key}}":"{{value}}"{% if not loop.last %},{% endif %}
-      {% endif %}
-    {% endfor %}
-    }{% if not loop.last %},{% endif %}
-  {% endfor %}
+        {%- endfor %}
+      ]{% if not loop.last %},{% endif %}
+      {%- else %}
+      "{{key}}":{% if value is string %}"{{value}}"{% else %}{{value}}{% endif %}{% if not loop.last %},{% endif %}
+      {%- endif %}
+      {%- endfor %}
+    }{%- if not loop.last %},{% endif %}
+    {%- endfor %}
   ]
 }
