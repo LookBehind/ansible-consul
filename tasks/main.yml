@@ -116,3 +116,13 @@
   when: not consul_do_not_start_immediately
   tags: ['consul']
   
+- name: "Register services"
+  template:
+    dest: /etc/consul/services.json
+    src: "{{ consul_services_template }}"
+    owner: consul
+    group: consul
+    mode: 0644
+  notify: Restart consul
+  when: consul_register_services and consul_services is defined and (consul_services | length > 0)
+  tags: ['consul', 'files']
